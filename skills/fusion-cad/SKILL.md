@@ -46,8 +46,10 @@ release features as the record; they would duplicate `parts.csv`.
    - you are exploring an idea that may be thrown away: copy to a scratch design named
      `scratch - <idea>`, with no PN. Bring the chosen geometry back into the PN design, then
      move the scratch design to `Obsolete`.
-7. Never delete a design that has had a PN. Move it to `Obsolete`, prefixing its name with
-   `OBSOLETE` (PNs are never reused, SOP-002 section 3).
+7. Never delete a design that has been released (milestoned for a gate or ECO). When it is
+   retired, move it to `Obsolete` and prefix its name with `OBSOLETE`. PNs are never reused
+   (SOP-002 section 3). A draft that was never released and has been replaced, e.g. a rough
+   model swapped for an accurate one, may be deleted.
 8. The latest version of a design is work in progress. Before a gate or ECO, check that the
    latest version is the one to be milestoned. Anyone who needs a released revision takes it
    from the release exports in git, or opens the milestone version, not the latest.
