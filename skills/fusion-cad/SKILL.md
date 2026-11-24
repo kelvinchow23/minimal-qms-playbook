@@ -99,11 +99,12 @@ release features as the record; they would duplicate `parts.csv`.
    exists (e.g. on GrabCAD, which needs the human's own sign-in to download). Only if there is
    none, ask the human before modelling it, and build it only from a technical drawing or
    measurements the human provides.
-4. Build a stand-in model (one made from a drawing, or a placeholder) as a local component
-   inside the assembly, named `<CCC-NNNN> <short name> (stand-in)`. Do not save it as its own
-   design in `OTS parts`. When the real model arrives, put it in `OTS parts`, replace the
-   stand-in with it, and delete the stand-in component. A stand-in saved as its own design
-   gets referenced by every saved assembly version, and Fusion then refuses to delete it.
+4. A stand-in model (one built from a drawing, or a placeholder) is still its own design in
+   `OTS parts`, named by its PN, like any other part (Files and folders, rule 1). When the real
+   model arrives, bring it into that same design as a new version (insert or paste the real
+   geometry, then delete the stand-in bodies) instead of creating a second design. The PN then
+   keeps one design, the assembly reference stays valid, and no orphan is left: a replaced
+   design is still referenced by older assembly versions, so Fusion refuses to delete it.
 5. Never guess the dimensions of an off-the-shelf part. Flag any geometry that is neither a
    supplier model nor measured as **unconfirmed**, in its component name and in the review
    package, until a human confirms it.
