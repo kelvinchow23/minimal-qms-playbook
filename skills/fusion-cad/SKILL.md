@@ -1,15 +1,15 @@
 ---
 name: fusion-cad
-description: Model parts and assemblies in Autodesk Fusion so they map to minimalQMS part numbers, and release them (milestone, exports, BOM, parts.csv). Use when creating or changing mechanical CAD in Fusion, or when a Fusion part or assembly is being released.
+description: Model parts and assemblies in Autodesk Fusion to a consistent standard (symmetry, sketches, holes, 3D-print defaults, heat-set inserts, off-the-shelf models) so they map to minimalQMS part numbers, and release them (milestone, exports, BOM, parts.csv). Use when creating, changing or reviewing mechanical CAD in Fusion, or when a Fusion part or assembly is being released.
 metadata:
-  rev: A
+  rev: B
   status: draft
 ---
 
 # Fusion CAD
 
 Carries out SOP-002 (part numbers, revisions) and SOP-004 (build package) for designs kept
-in Autodesk Fusion.
+in Autodesk Fusion. Parts are assumed to be 3D printed unless stated otherwise.
 
 ## Where things live
 
@@ -24,20 +24,72 @@ Fusion versions (`v12`) are not revisions (`B`). A released revision points to o
 version through the `source` column of `parts.csv`. Do not use Fusion's own lifecycle or
 release features as the record; they would duplicate `parts.csv`.
 
+## Files and folders
+
+1. Every custom part is its own Fusion design, inserted into the assembly as a reference (xref).
+   Never model a custom part as a local component inside the assembly.
+2. Name every design by its part number: custom parts `<PPP-NNNN> <short name>` (e.g.
+   `PRX-0004 Lid`), assemblies `<PPP-A-NNNN> <short name>` (e.g. `PRX-A-0001 Microscope mount`).
+   Before a PN is allocated, a descriptive name is fine.
+3. Never put the revision in a name. Record it in the design's properties, together with the
+   Part Number property set to the PN.
+4. Project folder: the assembly and custom parts in the project root; off-the-shelf part
+   files in a subfolder named `OTS parts`.
+
 ## Modelling practice
 
 1. Work in millimetres. Put key dimensions in user parameters with descriptive names.
-2. One component per custom part. Name each component `<PN> <short name>`, e.g.
-   `PRX-0004 Lid`, and set the component's Part Number property to the PN.
-3. Name bodies, sketches and important features. Never leave `Body1` or `Sketch12` in a
-   released design.
-4. Parts shared between products are separate Fusion designs, inserted as linked
-   components. Do not copy them.
-5. OTS parts: insert the supplier's model (e.g. a McMaster-Carr STEP) as a component named
-   `<CCC-NNNN> <short name>`. Allocate the PN first with the OTS library's `new_pn.py`.
-6. A part with no PN yet may be named descriptively. It must have a PN before the BOM is exported.
-7. Fully constrain sketches for released parts. Check for errors in the timeline before saving.
-8. Save with a version description that says what changed.
+2. Make parts as symmetric as possible. Start the first sketch at the origin, and keep the part
+   symmetric about the origin and the base planes.
+3. One sketch per feature. Do not reuse one large sketch for an extrude plus holes and cutouts.
+4. Sketch on existing body faces. Create a construction plane only where no suitable face exists.
+5. Capture design intent with constraints rather than dimensions, and do not over-dimension.
+   Where a datasheet gives a dimensioning scheme, follow it.
+6. Hole patterns: dimension the hole-to-hole spacing in both directions on a construction
+   rectangle, then locate the pattern's centre from one clear datum. Do not locate each hole
+   from the part origin.
+7. Model holes with the Hole feature, not extruded cuts.
+8. End extents at a face ("to object") rather than at a fixed distance wherever possible, so
+   edits do not break the model.
+9. Put fillets and chamfers at the end of the timeline, unless that is not possible.
+10. Name bodies, sketches and important features. Never leave `Body1` or `Sketch12` in a
+    released design.
+11. Save with a version description that says what changed.
+
+## Printed parts
+
+1. Two printed parts that mate have a clearance offset, driven by a user parameter.
+2. Fasten printed parts with machine screws into heat-set inserts. No self-tapping screw holes.
+3. Heat-set insert holes use the diameter in [heat-set-inserts.csv](heat-set-inserts.csv)
+   exactly. The depth there is a minimum; go a few millimetres deeper where the part allows.
+   The table is for the inserts listed in it; for any other insert, use its datasheet.
+4. Blend heat-set bosses into the wall with fillets, not a thin tangent attachment.
+5. A boss near the top of a printed wall is short, with a chamfered or cone-shaped underside,
+   so it prints without supports.
+6. Prefer flat-head (countersunk) screws over pan-head unless the function needs a pan head.
+   Screws driven in from the underside of a part that must sit flat are always flat-head.
+7. Choose part thicknesses and insert depths to suit the screw lengths the team stocks (see the
+   organization add-on), and use those lengths in the BOM.
+
+## Off-the-shelf parts
+
+1. Use the supplier's real STEP model wherever one exists (e.g. McMaster-Carr). For
+   McMaster-Carr, download the non-threaded version.
+2. If there is no STEP model, ask the human before modelling it. Build it only from a technical
+   drawing or measurements the human provides.
+3. Never guess the dimensions of an off-the-shelf part. Flag any geometry that is neither a
+   supplier model nor measured as **unconfirmed**, in its component name and in the review
+   package, until a human confirms it.
+4. Name each OTS component `<CCC-NNNN> <short name>` and set its Part Number property.
+   Allocate the PN first with the OTS library's `new_pn.py`.
+
+## BOM
+
+1. Every component has a PN before the BOM is exported.
+2. Keep the BOM short: consolidate fasteners to one head type and length per size wherever
+   reasonable, instead of mixing heads and lengths.
+3. Group BOM views and drawing parts lists into off-the-shelf and custom parts. In `bom.csv`
+   the PN format already separates them (`CCC-NNNN` vs `PPP-NNNN`).
 
 ## Releasing a part or assembly
 
@@ -46,7 +98,8 @@ are the minimalQMS defaults (`minimal-qms` `docs/INTERFACES.md`, "Release file n
 the team has changed them there, use those instead.
 
 1. Confirm the change is approved (SOP-003 review or SOP-001 ECO). Releasing is not approval.
-2. Save the design. Mark that version as a milestone named `<PN> rev <X>`.
+2. Save the design. Mark that version as a milestone named `<PN> rev <X>`, with the gate or
+   ECO in the version description (e.g. `G2 design freeze`). Update the revision property.
 3. Update `parts.csv`: `rev`, `lifecycle`, and `source` = `Fusion: <project>/<design> v<n>`.
 4. Export into `03_build_package/mechanical/`, named `<PN>_rev<X>_<short-name>.<ext>`:
    - STEP for every custom part and the top assembly;
@@ -59,17 +112,35 @@ the team has changed them there, use those instead.
    match. Report any difference; do not resolve it silently.
 7. Commit the exports, `parts.csv` and `bom.csv` together, in one PR (SOP-001).
 
+## Milestones at gates
+
+When a gate is passed (G2, G3, G4), mark a milestone on the current version of every design
+in the product: the top assembly, its sub-assemblies and every custom part. Name each
+`<PN> rev <X>` with the gate in the version description, even if the design did not change.
+The milestone list then shows which version of each design was approved at each gate.
+
 ## Agent notes
 
+- Deliver models as editable Fusion timelines. Do not hand over code-first CAD (e.g. CadQuery,
+  build123d) as the final model.
 - The Fusion MCP server works only while Fusion is open. Inspect the design before changing it.
 - The Fusion API uses **centimetres** and **radians**. Convert from millimetres and degrees.
 - Build geometry in small steps (sketch → profile → feature) and check visually after each
   significant change.
 - Never overwrite or delete a milestone version.
 
+## Open questions
+
+Not yet decided; raise them with the human when they come up:
+- Fillets: several separate fillet features, or one feature with several radii? The aim is a
+  model that does not break across iterations.
+- Revisions of working files: `vN` folders, or revise in place with an `Obsolete` folder?
+  Released files already carry the revision in their name (SOP-002), so this concerns working
+  files only.
+
 ## Organization add-on
 
 If the private playbook is cloned beside this repo, also read
-`minimal-qms-playbook-private/skills/fusion-cad/fusion-cad-private-addon.md`. It adds the
-organization's own conventions (team hub, project folders). Where it conflicts with this
-file, the add-on applies. Neither may conflict with an SOP.
+`minimal-qms-playbook-private/skills/fusion-cad/fusion-cad-private-addon.md`. It lists the
+fasteners and hardware the team keeps in stock and other local conventions. Where it
+conflicts with this file, the add-on applies. Neither may conflict with an SOP.
