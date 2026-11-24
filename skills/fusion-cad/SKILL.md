@@ -109,6 +109,10 @@ release features as the record; they would duplicate `parts.csv`.
    package, until a human confirms it.
 6. Name each OTS component `<CCC-NNNN> <short name>` and set its Part Number property.
    Allocate the PN first with the OTS library's `new_pn.py`.
+7. Give a downloaded or uploaded model its PN name (e.g. rename the STEP file to
+   `ECM-0004 Raspberry Pi Zero 2 W.step`) before uploading it to Fusion, or at least before
+   inserting it anywhere. The component name an assembly shows comes from the design's own
+   name, and renaming the file in the Data Panel afterwards does not change it.
 
 ## BOM
 
