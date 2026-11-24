@@ -2,7 +2,7 @@
 name: fusion-cad
 description: Model parts and assemblies in Autodesk Fusion to a consistent standard (symmetry, sketches, holes, 3D-print defaults, heat-set inserts, off-the-shelf models) so they map to minimalQMS part numbers, and release them (milestone, exports, BOM, parts.csv). Use when creating, changing or reviewing mechanical CAD in Fusion, or when a Fusion part or assembly is being released.
 metadata:
-  rev: B
+  rev: C
   status: draft
 ---
 
@@ -34,7 +34,23 @@ release features as the record; they would duplicate `parts.csv`.
 3. Never put the revision in a name. Record it in the design's properties, together with the
    Part Number property set to the PN.
 4. Project folder: the assembly and custom parts in the project root; off-the-shelf part
-   files in a subfolder named `OTS parts`.
+   files in a subfolder named `OTS parts`, and retired designs in a subfolder named `Obsolete`.
+5. Keep one design per PN and revise it in place. Fusion's version history holds every
+   version, a milestone marks each released revision (see Releasing), and assembly references
+   point to specific versions. Do not keep `revA`, `WIP` or `vN` copies: copies break
+   references and leave several files claiming one PN. The frozen copy of a released revision
+   is its export in git, named with the revision (SOP-002 section 4).
+6. Make a copy only when:
+   - the change is not interchangeable: "Save as" a new design with its new PN (SOP-002
+     section 4); or
+   - you are exploring an idea that may be thrown away: copy to a scratch design named
+     `scratch - <idea>`, with no PN. Bring the chosen geometry back into the PN design, then
+     move the scratch design to `Obsolete`.
+7. Never delete a design that has had a PN. Move it to `Obsolete`, prefixing its name with
+   `OBSOLETE` (PNs are never reused, SOP-002 section 3).
+8. The latest version of a design is work in progress. Before a gate or ECO, check that the
+   latest version is the one to be milestoned. Anyone who needs a released revision takes it
+   from the release exports in git, or opens the milestone version, not the latest.
 
 ## Modelling practice
 
@@ -136,9 +152,6 @@ The milestone list then shows which version of each design was approved at each 
 Not yet decided; raise them with the human when they come up:
 - Fillets: several separate fillet features, or one feature with several radii? The aim is a
   model that does not break across iterations.
-- Revisions of working files: `vN` folders, or revise in place with an `Obsolete` folder?
-  Released files already carry the revision in their name (SOP-002), so this concerns working
-  files only.
 
 ## Organization add-on
 
