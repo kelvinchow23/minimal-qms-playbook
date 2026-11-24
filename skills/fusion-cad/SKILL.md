@@ -56,13 +56,16 @@ release features as the record; they would duplicate `parts.csv`.
 
 ## Modelling practice
 
-1. Work in millimetres. Put key dimensions in user parameters with descriptive names.
+1. Work in millimetres. Put only the key design drivers in user parameters, with descriptive
+   names (e.g. overall size, wall thickness, clearances, positions that other parts depend on).
+   Other dimensions stay in their sketches, where a human edits them directly.
 2. Make parts as symmetric as possible. Start the first sketch at the origin, and keep the part
    symmetric about the origin and the base planes.
 3. One sketch per feature. Do not reuse one large sketch for an extrude plus holes and cutouts.
 4. Sketch on existing body faces. Create a construction plane only where no suitable face exists.
-5. Capture design intent with constraints rather than dimensions, and do not over-dimension.
-   Where a datasheet gives a dimensioning scheme, follow it.
+5. Fully constrain every sketch so a human can edit it. Capture design intent with
+   constraints rather than dimensions, and do not over-dimension. Where a datasheet gives a
+   dimensioning scheme, follow it.
 6. Hole patterns: dimension the hole-to-hole spacing in both directions on a construction
    rectangle, then locate the pattern's centre from one clear datum. Do not locate each hole
    from the part origin.
@@ -70,6 +73,8 @@ release features as the record; they would duplicate `parts.csv`.
 8. End extents at a face ("to object") rather than at a fixed distance wherever possible, so
    edits do not break the model.
 9. Put fillets and chamfers at the end of the timeline, unless that is not possible.
+   Parts should flow: blend inside corners with fillets, and keep adjoining top faces flush
+   and continuous.
 10. Name bodies, sketches and important features. Never leave `Body1` or `Sketch12` in a
     released design.
 11. Save with a version description that says what changed.
@@ -128,12 +133,15 @@ Hard rules. Nothing in a saved assembly may be draggable.
    connectors) is rigidly grouped twice: in its own design, and in every assembly that uses it,
    as an assembly rigid group that includes its children. A joint may attach to one
    sub-component, and without the assembly rigid group only that piece moves.
-4. Before saving, check that every component is grounded or fully held by joints, and run an
+4. In the timeline, each component insert is immediately followed by its joint(s).
+5. Before saving, check that every component is grounded or fully held by joints, and run an
    interference check. Report any interference that is not intended (e.g. a press fit).
 
-## Saving
+## Appearance and saving
 
-When saving any design, no sketches, construction planes, axes or points are visible.
+1. Opaque appearances only. Exception: windows (e.g. a polycarbonate panel) are clear with a
+   very light blue tint.
+2. When saving any design, no sketches, construction planes, axes or points are visible.
 
 ## BOM
 
