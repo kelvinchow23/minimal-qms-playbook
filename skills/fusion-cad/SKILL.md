@@ -68,14 +68,13 @@ release features as the record; they would duplicate `parts.csv`.
    so it prints without supports.
 6. Prefer flat-head (countersunk) screws over pan-head unless the function needs a pan head.
    Screws driven in from the underside of a part that must sit flat are always flat-head.
-7. Choose part thicknesses and insert depths to suit screws already in stock (look them up in
-   the OTS library), and use those screws in the BOM.
+7. Choose part thicknesses and insert depths to suit screws already in the OTS library, and use
+   those screws in the BOM.
 
 ## Off-the-shelf parts
 
 1. Look up the OTS library (`minimal-qms-ots-library`) first, and prefer a part that is already
-   registered and in stock. The library is the record of what is available; this skill does not
-   list parts.
+   in it. Treat every part in the library as available. This skill does not list parts.
 2. Use the supplier's real STEP model wherever one exists (e.g. McMaster-Carr). For
    McMaster-Carr, download the non-threaded version.
 3. If there is no STEP model, ask the human before modelling it. Build it only from a technical
