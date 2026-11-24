@@ -68,19 +68,22 @@ release features as the record; they would duplicate `parts.csv`.
    so it prints without supports.
 6. Prefer flat-head (countersunk) screws over pan-head unless the function needs a pan head.
    Screws driven in from the underside of a part that must sit flat are always flat-head.
-7. Choose part thicknesses and insert depths to suit the screw lengths the team stocks (see the
-   organization add-on), and use those lengths in the BOM.
+7. Choose part thicknesses and insert depths to suit screws already in stock (look them up in
+   the OTS library), and use those screws in the BOM.
 
 ## Off-the-shelf parts
 
-1. Use the supplier's real STEP model wherever one exists (e.g. McMaster-Carr). For
+1. Look up the OTS library (`minimal-qms-ots-library`) first, and prefer a part that is already
+   registered and in stock. The library is the record of what is available; this skill does not
+   list parts.
+2. Use the supplier's real STEP model wherever one exists (e.g. McMaster-Carr). For
    McMaster-Carr, download the non-threaded version.
-2. If there is no STEP model, ask the human before modelling it. Build it only from a technical
+3. If there is no STEP model, ask the human before modelling it. Build it only from a technical
    drawing or measurements the human provides.
-3. Never guess the dimensions of an off-the-shelf part. Flag any geometry that is neither a
+4. Never guess the dimensions of an off-the-shelf part. Flag any geometry that is neither a
    supplier model nor measured as **unconfirmed**, in its component name and in the review
    package, until a human confirms it.
-4. Name each OTS component `<CCC-NNNN> <short name>` and set its Part Number property.
+5. Name each OTS component `<CCC-NNNN> <short name>` and set its Part Number property.
    Allocate the PN first with the OTS library's `new_pn.py`.
 
 ## BOM
@@ -141,6 +144,6 @@ Not yet decided; raise them with the human when they come up:
 ## Organization add-on
 
 If the private playbook is cloned beside this repo, also read
-`minimal-qms-playbook-private/skills/fusion-cad/fusion-cad-private-addon.md`. It lists the
-fasteners and hardware the team keeps in stock and other local conventions. Where it
-conflicts with this file, the add-on applies. Neither may conflict with an SOP.
+`minimal-qms-playbook-private/skills/fusion-cad/fusion-cad-private-addon.md`. It adds local
+conventions. Where it conflicts with this file, the add-on applies. Neither may conflict with
+an SOP.
