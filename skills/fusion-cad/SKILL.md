@@ -95,12 +95,19 @@ release features as the record; they would duplicate `parts.csv`.
    in it. Treat every part in the library as available. This skill does not list parts.
 2. Use the supplier's real STEP model wherever one exists (e.g. McMaster-Carr). For
    McMaster-Carr, download the non-threaded version.
-3. If there is no STEP model, ask the human before modelling it. Build it only from a technical
-   drawing or measurements the human provides.
-4. Never guess the dimensions of an off-the-shelf part. Flag any geometry that is neither a
+3. If the supplier has no STEP model, first ask the human whether a good community model
+   exists (e.g. on GrabCAD, which needs the human's own sign-in to download). Only if there is
+   none, ask the human before modelling it, and build it only from a technical drawing or
+   measurements the human provides.
+4. Build a stand-in model (one made from a drawing, or a placeholder) as a local component
+   inside the assembly, named `<CCC-NNNN> <short name> (stand-in)`. Do not save it as its own
+   design in `OTS parts`. When the real model arrives, put it in `OTS parts`, replace the
+   stand-in with it, and delete the stand-in component. A stand-in saved as its own design
+   gets referenced by every saved assembly version, and Fusion then refuses to delete it.
+5. Never guess the dimensions of an off-the-shelf part. Flag any geometry that is neither a
    supplier model nor measured as **unconfirmed**, in its component name and in the review
    package, until a human confirms it.
-5. Name each OTS component `<CCC-NNNN> <short name>` and set its Part Number property.
+6. Name each OTS component `<CCC-NNNN> <short name>` and set its Part Number property.
    Allocate the PN first with the OTS library's `new_pn.py`.
 
 ## BOM
