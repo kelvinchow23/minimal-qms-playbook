@@ -188,6 +188,10 @@ The milestone list then shows which version of each design was approved at each 
 - Build geometry in small steps (sketch → profile → feature) and check visually after each
   significant change.
 - Never overwrite or delete a milestone version.
+- Keep only one open copy of each design. Opening a referenced design again, or an older
+  version, gives a second copy whose saves can silently fail.
+- After every save, confirm that the design's latest version number went up. "Save returned
+  true" is not proof; the save may not have landed.
 
 ## Open questions
 
