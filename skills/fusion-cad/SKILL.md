@@ -99,15 +99,16 @@ release features as the record; they would duplicate `parts.csv`.
    exists (e.g. on GrabCAD, which needs the human's own sign-in to download). Only if there is
    none, ask the human before modelling it, and build it only from a technical drawing or
    measurements the human provides.
-4. A stand-in model (one built from a drawing, or a placeholder) is still its own design in
-   `OTS parts`, named by its PN, like any other part (Files and folders, rule 1). When the real
-   model arrives, bring it into that same design as a new version (insert or paste the real
-   geometry, then delete the stand-in bodies) instead of creating a second design. The PN then
-   keeps one design, the assembly reference stays valid, and no orphan is left: a replaced
-   design is still referenced by older assembly versions, so Fusion refuses to delete it.
-5. Never guess the dimensions of an off-the-shelf part. Flag any geometry that is neither a
-   supplier model nor measured as **unconfirmed**, in its component name and in the review
-   package, until a human confirms it.
+4. A model built from the manufacturer's drawing, datasheet or board file is the part's real
+   model, not a stand-in. Save it as its own design in `OTS parts`, named by its PN, like any
+   other part (Files and folders, rule 1), and record its source in the design's description.
+   - **Mounting holes** (positions, diameters, board outline) must come from the manufacturer's
+     data. They are what the design depends on.
+   - **Other features** (sensors, connectors, component heights) may be approximate. Flag them
+     as unconfirmed; a human checks them by hand against a real part.
+5. Never guess the dimensions of an off-the-shelf part. Flag any geometry that is not from a
+   supplier model, the manufacturer's data or a measurement as **unconfirmed**, in the design's
+   description and in the review package, until a human confirms it.
 6. Name each OTS component `<CCC-NNNN> <short name>` and set its Part Number property.
    Allocate the PN first with the OTS library's `new_pn.py`.
 7. Give a downloaded or uploaded model its PN name (e.g. rename the STEP file to
