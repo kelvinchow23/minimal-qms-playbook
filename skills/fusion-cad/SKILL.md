@@ -116,6 +116,25 @@ release features as the record; they would duplicate `parts.csv`.
    inserting it anywhere. The component name an assembly shows comes from the design's own
    name, and renaming the file in the Data Panel afterwards does not change it.
 
+## Assemblies
+
+Hard rules. Nothing in a saved assembly may be draggable.
+1. Ground exactly one component: the main part that everything mounts to (e.g. the base).
+2. Locate every other component with joints to real geometry: a mounting-hole centre to its
+   mating hole or insert centre, a seating face to the face it sits on. Never use Move,
+   Position or Capture Position, and never set a component's position directly (agents: no
+   occurrence transform edits). The timeline holds no Position steps.
+3. A component with several sub-components (e.g. an imported PCB STEP with its chips and
+   connectors) is rigidly grouped twice: in its own design, and in every assembly that uses it,
+   as an assembly rigid group that includes its children. A joint may attach to one
+   sub-component, and without the assembly rigid group only that piece moves.
+4. Before saving, check that every component is grounded or fully held by joints, and run an
+   interference check. Report any interference that is not intended (e.g. a press fit).
+
+## Saving
+
+When saving any design, no sketches, construction planes, axes or points are visible.
+
 ## BOM
 
 1. Every component has a PN before the BOM is exported.
