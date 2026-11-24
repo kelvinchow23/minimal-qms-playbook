@@ -35,6 +35,9 @@ The assembled board's BOM lists the bare PCB and every component, with reference
 
 ## Releasing a board
 
+Names below are the minimalQMS defaults (`minimal-qms` `docs/INTERFACES.md`, "Release file
+names"); if the team has changed them there, use those instead.
+
 1. Confirm the change is approved (SOP-003 review or SOP-001 ECO). Releasing is not approval.
 2. Run the checks and save the reports:
    - `kicad-cli sch erc --output erc.rpt <project>.kicad_sch`
@@ -49,7 +52,7 @@ The assembled board's BOM lists the bare PCB and every component, with reference
    files, never to the native footprints.
 5. Write the BOM lines into `bom.csv`, with `refdes` filled in.
 6. Update `parts.csv`: `rev`, `lifecycle`, and `source` = `KiCad: <path>/<project>.kicad_pro
-   (tag <pn>-rev<X>)`, in lower case, e.g. `prx-0002-revB`.
+   (tag <PN>-rev<X>)`, e.g. `KiCad: electronics/driver/driver.kicad_pro (tag PRX-0002-revB)`.
 7. Commit the outputs, `parts.csv` and `bom.csv` together, in one PR (SOP-001). After it is
    merged, tag the merge commit with the name in `source`.
 8. Never overwrite a released output folder. A new revision gets a new folder.

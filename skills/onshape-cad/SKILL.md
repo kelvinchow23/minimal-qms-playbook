@@ -39,6 +39,9 @@ as the record; it would duplicate `parts.csv`.
 
 ## Releasing a part or assembly
 
+Names below are the minimalQMS defaults (`minimal-qms` `docs/INTERFACES.md`, "Release file
+names"); if the team has changed them there, use those instead.
+
 1. Confirm the change is approved (SOP-003 review or SOP-001 ECO). Releasing is not approval.
 2. Create a version named `<PN> rev <X>`.
 3. Update `parts.csv`: `rev`, `lifecycle`, and `source` = `Onshape: <document> / <version name>`.

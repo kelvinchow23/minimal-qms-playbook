@@ -41,7 +41,9 @@ release features as the record; they would duplicate `parts.csv`.
 
 ## Releasing a part or assembly
 
-Do this when the part goes on a released BOM (at G2, or through an ECO after G2).
+Do this when the part goes on a released BOM (at G2, or through an ECO after G2). Names below
+are the minimalQMS defaults (`minimal-qms` `docs/INTERFACES.md`, "Release file names"); if
+the team has changed them there, use those instead.
 
 1. Confirm the change is approved (SOP-003 review or SOP-001 ECO). Releasing is not approval.
 2. Save the design. Mark that version as a milestone named `<PN> rev <X>`.
