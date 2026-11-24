@@ -14,6 +14,8 @@ and an agent loads as a skill. One file serves both, so the two can't drift apar
 | [kicad-design](skills/kicad-design/SKILL.md) | Schematic and PCB design in KiCad, and releasing a board |
 | [assembly-instructions](skills/assembly-instructions/SKILL.md) | Writing the assembly instruction for an in-house assembly (SOP-006) |
 | [purchasing](skills/purchasing/SKILL.md) | Ordering parts for a build and recording the order (SOP-005) |
+| [fusion-cam](skills/fusion-cam/SKILL.md) | Setting up Fusion CAM toolpaths for a small GRBL router, including inlays |
+| [lab-drivers](skills/lab-drivers/SKILL.md) | Writing firmware or host drivers for lab devices and sensors |
 
 ## Public playbook, private add-ons
 
