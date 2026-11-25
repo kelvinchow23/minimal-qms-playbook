@@ -16,7 +16,7 @@ assembly's PN and revision, with numbered appendices as separate files, all flat
 
 | File | Contents |
 |---|---|
-| `<PN>_rev<X>.pdf` | The assembly instruction, with a title block (PN, rev, status, approval, CAD versions) |
+| `<PN>_rev<X>_assembly_instructions.pdf` | The assembly instruction |
 | `<PN>_rev<X>_A01_bom.csv` | Bill of materials for the purchaser (see BOM columns below) |
 | `<PN>_rev<X>_A02_make_files.zip` | Files to make the custom parts: STL for printed parts, drawings, Gerbers for PCBs |
 | `<PN>_rev<X>_A03_test.pdf` | What to check: incoming, in-process and final checks; each test with a one-line brief, then in full; analyses |
@@ -24,7 +24,17 @@ assembly's PN and revision, with numbered appendices as separate files, all flat
 | `<PN>_rev<X>_A05_incoming.pdf` and `.csv` | Incoming inspection record, one per delivery |
 | `<PN>_rev<X>_A06_software.zip` | Released software or firmware, once it has passed its tests (not frozen at G2) |
 
-Add further appendices (A07 …) only when a product needs them. Every appendix's title says what
+Add further appendices (A07 …) only when a product needs them.
+
+**One revision for the whole document.** The appendices share the build document's revision
+and date. Any change to any appendix (a BOM line, a make file, a check, the traveller) is a
+revision of the whole document: the revision letter and date change on the instruction and on
+every appendix together, in the same PR (SOP-001), even when the instruction's own text did
+not change.
+
+**Title block, the same on every document and form:** title, document number (`<PN>` or
+`<PN>-A<nn>`), rev, assembly name and number, status, date, approval, design source (the top
+assembly's CAD milestone). Short values only. Every appendix's title says what
 it is ("A04 Build traveller (one per unit)"), not only its number. The design source in each
 title block is the top-level assembly only (e.g. its Fusion milestone `<PN> rev <X>`), not
 every part. Sources (instruction steps,
