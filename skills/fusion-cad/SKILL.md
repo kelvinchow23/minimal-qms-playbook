@@ -190,6 +190,10 @@ The milestone list then shows which version of each design was approved at each 
 - Never overwrite or delete a milestone version.
 - Keep only one open copy of each design. Opening a referenced design again, or an older
   version, gives a second copy whose saves can silently fail.
+- Edit a part by opening it directly from the Data Panel (agents: open its latest version),
+  with the assemblies that use it closed. A part opened through an assembly's references cannot
+  be saved. Changing only a property (e.g. Part Number) does not mark a design as modified, so
+  that save does nothing; make it together with a real change.
 - After every save, confirm that the design's latest version number went up. "Save returned
   true" is not proof; the save may not have landed.
 
