@@ -120,6 +120,12 @@ release features as the record; they would duplicate `parts.csv`.
    `ECM-0004 Raspberry Pi Zero 2 W.step`) before uploading it to Fusion, or at least before
    inserting it anywhere. The component name an assembly shows comes from the design's own
    name, and renaming the file in the Data Panel afterwards does not change it.
+8. Make every OTS model look like the real part in the supplier's product photo, whether it
+   was imported or built: board colour (e.g. SparkFun red, Adafruit black, Raspberry Pi
+   green), connector housings, metal finishes (tin, gold pads, brass inserts, black or zinc
+   screws). Imported STEP files often arrive grey or one colour; recolour them by body.
+   Check against the product photo before saving, and keep the photo's URL in the design's
+   description.
 
 ## Assemblies
 
