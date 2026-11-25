@@ -19,11 +19,15 @@ assembly's PN and revision, with numbered appendices as separate files, all flat
 | `<PN>_rev<X>.pdf` | The assembly instruction, with a title block (PN, rev, status, approval, CAD versions) |
 | `<PN>_rev<X>_A01_bom.csv` | Bill of materials for the purchaser (see BOM columns below) |
 | `<PN>_rev<X>_A02_make-files.zip` | Files to make the custom parts: STL for printed parts, drawings, Gerbers for PCBs |
-| `<PN>_rev<X>_A03_inspection-test.pdf` | Incoming inspection, in-process checks, final checks, test procedures, analyses |
-| `<PN>_rev<X>_A04_traveller.pdf` | Build traveller: one per unit, serial number and sign-offs |
-| `<PN>_rev<X>_A05_software.zip` | Released software or firmware, once it has passed its tests (not frozen at G2) |
+| `<PN>_rev<X>_A03_inspection-test-procedures.pdf` | What to check: incoming, in-process and final checks; each test with a one-line brief, then in full; analyses |
+| `<PN>_rev<X>_A04_build-traveller.pdf` and `.csv` | Build traveller, one per unit |
+| `<PN>_rev<X>_A05_incoming-inspection-record.pdf` and `.csv` | Incoming inspection record, one per delivery |
+| `<PN>_rev<X>_A06_software.zip` | Released software or firmware, once it has passed its tests (not frozen at G2) |
 
-Add further appendices (A06 …) only when a product needs them. Sources (instruction steps,
+Add further appendices (A07 …) only when a product needs them. Every appendix's title says what
+it is ("A04 Build traveller (one per unit)"), not only its number. The design source in each
+title block is the top-level assembly only (e.g. its Fusion milestone `<PN> rev <X>`), not
+every part. Sources (instruction steps,
 pictures, BOM data, CAD exports) live in `02_design/`, and the document is generated from them;
 people read the generated files.
 
@@ -32,9 +36,20 @@ category (`Custom (part)`, `Custom (assembly)` or `OTS`), qty, unit in capitals 
 OTS parts: manufacturer, MPN, supplier, supplier SKU, link, unit price, currency, price in CAD,
 price date. One BOM per assembly; ordering data is copied into each project.
 
-**Traveller (A04):** serial number (SOP-002 section 7), build, assembler and date; a row per
-incoming check, per step check, per final check and per test, each with pass, initials and
-date; and a build-complete signature. Release is recorded separately after the tests (SOP-007).
+**Forms (A04, A05)** are made for the person filling them in and for an agent helping them:
+- Each form comes as a PDF to print and as a CSV with the same rows, for an agent or a
+  spreadsheet; the filled copy goes in the build record `builds/B00n/` (B001 = first build).
+- Every row has pass or fail, initials, date, comments and an NC number. Each form says what to
+  do on a fail: mark it, write what was seen, stop work on that unit or part, tell the quality
+  lead, who raises an NC.
+- **Build traveller (A04), one per unit:** the serial number as `<PN>-` and a blank the builder
+  fills in, the build number (with a note on what it is), assembler and date; a row per step
+  check, final check and test (with the test's one-line brief); a build-complete signature.
+  Release is recorded separately after the tests (SOP-007).
+- **Incoming inspection record (A05), one per delivery:** received date, order or supplier,
+  inspector; one row per Class A part with its check, how many to check and quantity received,
+  so a whole delivery is signed in one go. Incoming inspection does not go on the traveller.
+- Print forms with many columns landscape.
 
 ## Style: pictures first, little text
 
