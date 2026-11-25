@@ -45,7 +45,10 @@ orientation check).
    - a parts box: thumbnail, callout and quantity (beside the thumbnail) for each part used in
      this step;
    - a tools box, if the step needs a tool;
-   - one CAD render, with a callout bubble and a leader line to every place a part goes;
+   - one CAD render, with a callout bubble and a leader line to every place a part goes, and
+     each cable's route drawn as a line from connector to connector; for a part that closes
+     or covers (a lid, a cover), a before and after: the part hovering with arrows, a right
+     arrow, then the part fitted. A step with many parts uses an exploded view;
    - a legend: one line per callout, quantity and an action of a few words ("press flush");
    - at most two short notes, for what the picture cannot show.
 6. One colour per class, the same throughout the guide.
