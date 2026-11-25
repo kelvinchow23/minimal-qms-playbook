@@ -16,13 +16,13 @@ assembly's PN and revision, with numbered appendices as separate files, all flat
 
 | File | Contents |
 |---|---|
-| `<PN>_rev<X>_assembly_instructions.pdf` | The assembly instruction |
-| `<PN>_rev<X>_A01_bom.csv` | Bill of materials for the purchaser (see BOM columns below) |
-| `<PN>_rev<X>_A02_make_files.zip` | Files to make the custom parts: STL for printed parts, drawings, Gerbers for PCBs |
-| `<PN>_rev<X>_A03_test.pdf` | What to check: incoming, in-process and final checks; each test with a one-line brief, then in full; analyses |
-| `<PN>_rev<X>_A04_traveller.pdf` and `.csv` | Build traveller, one per unit |
-| `<PN>_rev<X>_A05_incoming.pdf` and `.csv` | Incoming inspection record, one per delivery |
-| `<PN>_rev<X>_A06_software.zip` | Released software or firmware, once it has passed its tests (not frozen at G2) |
+| `<PN>_assembly_instructions_rev_<X>.pdf` | The assembly instruction |
+| `<PN>-A01_bom_rev_<X>.csv` | Bill of materials for the purchaser (see BOM columns below) |
+| `<PN>-A02_make_files_rev_<X>.zip` | Files to make the custom parts: STL for printed parts, drawings, Gerbers for PCBs |
+| `<PN>-A03_test_rev_<X>.pdf` | What to check: incoming, in-process and final checks; each test with a one-line brief, then in full; analyses |
+| `<PN>-A04_traveller_rev_<X>.pdf` and `.csv` | Build traveller, one per unit |
+| `<PN>-A05_incoming_rev_<X>.pdf` and `.csv` | Incoming inspection record, one per delivery |
+| `<PN>-A06_software_rev_<X>.zip` | Released software or firmware, once it has passed its tests (not frozen at G2) |
 
 Add further appendices (A07 …) only when a product needs them.
 
