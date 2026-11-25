@@ -23,29 +23,32 @@ orientation check).
 
    | Letter | Class | Examples |
    |---|---|---|
-   | P | Printed and other custom parts | base, lid |
-   | B | Bought parts | boards, modules, power supply, SD card |
-   | F | Fasteners | screws, nuts, washers, standoffs |
-   | H | Heat-set inserts | M2 insert |
-   | W | Cables and wires | Qwiic cable, harnesses |
-   | C | Wiring consumables | ferrules, crimps, heat-shrink |
+   | A | Custom parts: printed, machined, PCBs, and sub-assemblies built from another assembly instruction | base, lid, driver PCB |
+   | B | Bought parts, other than hardware and wires | boards, modules, power supply, SD card |
+   | H | Hardware | screws, nuts, washers, standoffs, heat-set inserts |
+   | W | Wires, as built and ready to fit | Qwiic cable, harness W3 |
 
    The callout goes in the `refdes` column of `bom.csv`, and the same callout is used in the
    parts gallery, every step, and every picture. The PN stays on the BOM; the steps use only
    the callout.
-2. **Fastener labels** give the size, the length and the head: `M2×5 pan`, `M4×10 flat`,
+2. **Hardware labels** give the size, the length and the head: `M2×5 pan`, `M4×10 flat`,
    `M4 standoff 40`. Inserts give the thread: `M2`. Never just "screw".
-3. **Parts gallery** first: one card per callout with a picture, the callout, the quantity
-   and its label. Then a wiring section, if there are wires: one card per W with both ends,
-   connectors and length.
-4. **Each step** has:
+3. **Parts gallery** first: one card per callout with a picture, the callout, the label, and
+   the quantity next to the picture.
+4. **Wires first.** If any wire has to be built (cut and stripped to length, connectors
+   crimped or fitted), a wire section comes before the assembly steps: its own BOM of raw wire,
+   connectors, crimps, ferrules and heat-shrink, then one card per W with its length, both
+   ends and the build steps. In the assembly steps each built wire is then a W part like any
+   other. A wire bought ready-made is still a W; the section then says there is nothing to build.
+5. **Each step** has:
    - a large step number and a short title (a few words);
-   - a parts box: thumbnail, callout and quantity for each part used in this step;
+   - a parts box: thumbnail, callout and quantity (beside the thumbnail) for each part used in
+     this step;
    - a tools box, if the step needs a tool;
    - one CAD render, with a callout bubble and a leader line to every place a part goes;
    - a legend: one line per callout, quantity and an action of a few words ("press flush");
    - at most two short notes, for what the picture cannot show.
-5. One colour per class, the same throughout the guide.
+6. One colour per class, the same throughout the guide.
 
 ## Writing it
 
