@@ -35,6 +35,9 @@ orientation check).
    `M4 standoff 40`. Inserts give the thread: `M2`. Never just "screw".
 3. **Parts gallery** first: one card per callout with a picture, the callout, the label, and
    the quantity next to the picture.
+   Render all hardware (H) at one shared scale, so an M3×25 is visibly longer than an M3×5
+   with the same head. Other parts are fitted to their card; true scale across everything
+   would make small parts unreadable.
 4. **Wires first.** If any wire has to be built (cut and stripped to length, connectors
    crimped or fitted), a wire section comes before the assembly steps: its own BOM of raw wire,
    connectors, crimps, ferrules and heat-shrink, then one card per W with its length, both
