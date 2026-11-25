@@ -21,7 +21,7 @@ assembly's PN and revision, with numbered appendices as separate files, all flat
 | `<PN>_rev<X>_A02_make-files.zip` | Files to make the custom parts: STL for printed parts, drawings, Gerbers for PCBs |
 | `<PN>_rev<X>_A03_inspection-test.pdf` | Incoming inspection, in-process checks, final checks, test procedures, analyses |
 | `<PN>_rev<X>_A04_traveller.pdf` | Build traveller: one per unit, serial number and sign-offs |
-| `<PN>_rev<X>_A05_software.zip` | Released software or firmware, when there is any |
+| `<PN>_rev<X>_A05_software.zip` | Released software or firmware, once it has passed its tests (not frozen at G2) |
 
 Add further appendices (A06 …) only when a product needs them. Sources (instruction steps,
 pictures, BOM data, CAD exports) live in `02_design/`, and the document is generated from them;
