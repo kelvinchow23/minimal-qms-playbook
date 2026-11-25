@@ -168,8 +168,12 @@ the team has changed them there, use those instead.
 5. Export the BOM of each assembly. Use the drawing parts list or a script; an agent may
    read the assembly through the Fusion MCP server. Write the lines into `bom.csv`
    (`parent_pn, parent_rev, pn, qty, unit, refdes, source, notes`).
-6. Compare `bom.csv` with the Fusion assembly. Every component has a PN, and quantities
-   match. Report any difference; do not resolve it silently.
+6. Compare `bom.csv` with the Fusion assembly: run [fusion_bom.py](fusion_bom.py) in Fusion and
+   check it against `bom.csv`. Every component has a PN, and quantities match. In `bom.csv`, a
+   line read from the CAD has `source` = `Fusion: <assembly> v<n>`; a part that is not modelled
+   (e.g. a wall power supply) has `source` = `manual (not modelled)`. Report any difference; do
+   not resolve it silently. Run the check whenever the BOM or the assembly changes, not only at
+   release.
 7. Commit the exports, `parts.csv` and `bom.csv` together, in one PR (SOP-001).
 
 ## Milestones at gates
