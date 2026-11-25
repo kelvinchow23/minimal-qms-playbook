@@ -181,28 +181,34 @@ Hard rules. Nothing in a saved assembly may be draggable.
 
 ## Releasing a part or assembly
 
-Do this when the part goes on a released BOM (at G2, or through an ECO after G2). Names below
-are the minimalQMS defaults (`minimal-qms` `docs/INTERFACES.md`, "Release file names"); if
-the team has changed them there, use those instead.
+Do this when the part goes on a released BOM (at G2, or through an ECO after G2). The make
+files are exported **before** the review, so the approver sees the actual outputs; approval
+then freezes those exact versions. Names below are the minimalQMS defaults (`minimal-qms`
+`docs/INTERFACES.md`, "Release file names"); if the team has changed them there, use those.
 
-1. Confirm the change is approved (SOP-003 review or SOP-001 ECO). Releasing is not approval.
-2. Save the design. Mark that version as a milestone named `<PN> rev <X>`, with the gate or
-   ECO in the version description (e.g. `G2 design freeze`). Update the revision property.
-3. Update `parts.csv`: `rev`, `lifecycle`, and `source` = `Fusion: <project>/<design> v<n>`.
-4. Export into `03_build_package/mechanical/`, named `<PN>_rev<X>_<short-name>.<ext>`:
-   - STEP for every custom part and the top assembly;
-   - STL or 3MF for printed parts;
-   - PDF drawing where a dimension, tolerance or finish matters to the maker or inspector.
-5. Export the BOM of each assembly. Use the drawing parts list or a script; an agent may
-   read the assembly through the Fusion MCP server. Write the lines into `bom.csv`
-   (`parent_pn, parent_rev, pn, qty, unit, refdes, source, notes`).
-6. Compare `bom.csv` with the Fusion assembly: run [fusion_bom.py](fusion_bom.py) in Fusion and
-   check it against `bom.csv`. Every component has a PN, and quantities match. Every line in
-   `bom.csv` has `source` = `Fusion: <assembly> v<n>`; a part that is not modelled is in the
-   CAD as a ghost design (Assemblies, rule 7), so no line is entered by hand. Report any
-   difference; do not resolve it silently. Run the check whenever the BOM or the assembly changes, not only at
-   release.
-7. Commit the exports, `parts.csv` and `bom.csv` together, in one PR (SOP-001).
+Before the review:
+1. Save every design. Note the version each export comes from (e.g. `LSN-0001 Base v7`).
+2. Export into `03_build_package/mechanical/`, named `<PN>_rev<X>_<short-name>.<ext>`:
+   - STL (or 3MF) for printed parts: enough for someone to print them;
+   - STEP only where someone downstream needs the solid model (machining, a supplier, reuse);
+   - PDF drawing where a dimension, tolerance or finish matters to the maker or inspector;
+   - Gerbers and assembly files for PCBs (kicad-design skill).
+   Zip them as the make-files appendix of the build document, with a README that lists each
+   file and the CAD version it came from.
+3. Read the BOM out of the assembly and check it against the BOM appendix: run
+   [fusion_bom.py](fusion_bom.py) in Fusion. Every component has a PN and quantities match.
+   Every BOM line comes from the CAD; a part that is not modelled is in the CAD as a ghost
+   design (Assemblies, rule 7), so no line is entered by hand. Report any difference; do not
+   resolve it silently. Run the check whenever the BOM or the assembly changes.
+4. Put the make files and the BOM in the review package. The approver opens them.
+
+After approval (SOP-003 review or SOP-001 ECO; releasing is not approval):
+5. Check that no design has a newer version than the one exported. If one does, re-export and
+   bring it back to the approver.
+6. Mark each exported version as a milestone named `<PN> rev <X>`, with the gate or ECO in the
+   version description (e.g. `G2 design freeze`). Update the revision property.
+7. Set the parts' revision and lifecycle to released, with the source CAD version, and commit
+   in one PR with the exports (SOP-001).
 
 ## Milestones at gates
 
