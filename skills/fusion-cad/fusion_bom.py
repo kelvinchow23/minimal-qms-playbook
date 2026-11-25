@@ -1,11 +1,12 @@
 """Read the BOM of the active Fusion assembly (run inside Fusion, e.g. Scripts and Add-Ins or an
 agent through the Fusion MCP server). Prints `pn,qty,how` lines to compare with bom.csv.
 
-Counts every component one level below the assembly's grouping components (e.g. "Custom parts",
-"OTS parts"), or below the root when there are none. Sub-components of an imported model (a
-PCB's chips) are not counted. The PN is the component's Part Number property; when that is not a
-PN (e.g. Fusion's timestamp default on an uploaded STEP), the PN at the start of the referenced
-file's name is used, and the line says so.
+Walks down through grouping components (local components with no bodies, e.g. "OTS parts" >
+"Fasteners") and counts every referenced design it finds, ghost designs included. A referenced
+design's own sub-components (a PCB's chips) are not counted. The PN is the component's Part
+Number property; when that is not a PN (e.g. Fusion's timestamp default on an uploaded STEP),
+the PN at the start of the referenced file's name is used, and the line says so. A local
+component with bodies is reported as NO-PN: custom parts must be their own designs.
 """
 import re
 
@@ -15,13 +16,19 @@ import adsk.fusion
 PN = re.compile(r"^([A-Z]{3}-(?:A-)?\d{4})")
 
 
+def _parts(occurrences):
+    for o in occurrences:
+        if not o.isReferencedComponent and o.component.bRepBodies.count == 0:
+            yield from _parts(o.childOccurrences)  # grouping component
+        else:
+            yield o
+
+
 def run(_context: str):
     app = adsk.core.Application.get()
     root = adsk.fusion.Design.cast(app.activeProduct).rootComponent
-    groups = [o for o in root.occurrences if not o.isReferencedComponent and o.childOccurrences.count]
-    parts = [c for g in groups for c in g.childOccurrences] + [o for o in root.occurrences if o.isReferencedComponent]
     counts, how = {}, {}
-    for o in parts:
+    for o in _parts(root.occurrences):
         comp = o.component
         pn, src = (comp.partNumber, "property") if PN.match(comp.partNumber or "") else (None, "")
         if not pn and o.isReferencedComponent:

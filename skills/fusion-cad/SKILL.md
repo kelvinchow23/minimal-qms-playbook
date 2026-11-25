@@ -125,6 +125,7 @@ release features as the record; they would duplicate `parts.csv`.
 
 Hard rules. Nothing in a saved assembly may be draggable.
 1. Ground exactly one component: the main part that everything mounts to (e.g. the base).
+   Exceptions: grouping components (rule 6) and ghost designs (rule 7) are grounded too.
 2. Locate every other component with joints to real geometry: a mounting-hole centre to its
    mating hole or insert centre, a seating face to the face it sits on. Never use Move,
    Position or Capture Position, and never set a component's position directly (agents: no
@@ -136,6 +137,27 @@ Hard rules. Nothing in a saved assembly may be draggable.
 4. In the timeline, each component insert is immediately followed by its joint(s).
 5. Before saving, check that every component is grounded or fully held by joints, and run an
    interference check. Report any interference that is not intended (e.g. a press fit).
+6. Group the browser tree by kind, so one visibility toggle (the eye icon) hides a whole class,
+   e.g. all screws while you look at the boards. Grouping components are empty local
+   components, grounded, holding the inserted designs:
+   ```
+   <PPP-A-NNNN> <name>
+   ├─ Custom parts     the PPP-NNNN designs
+   └─ OTS parts
+      ├─ Electronics   boards, modules, connectors
+      ├─ Fasteners     screws, inserts, nuts, washers
+      └─ BOM only      ghost designs (rule 7)
+   ```
+   Leave out a group that would be empty. For a saved combination of what is shown, use a
+   Named View for the camera and toggle groups for visibility; do not delete or suppress
+   components to hide them.
+7. **Ghost designs.** A part that is on the BOM but not worth modelling (cables, wiring, an SD
+   card, a wall power supply, labels, consumables) still goes into the CAD, so the BOM read from
+   the CAD is complete. Make it an empty design in `OTS parts`, named
+   `<CCC-NNNN> <short name> (ghost)`, with its Part Number property set and the description
+   `GHOST: not modelled; present so the CAD BOM is complete.` Insert it into the `BOM only`
+   group once per unit used, grounded, with no joints. Model the part instead when its shape
+   matters to the design (e.g. a cable that needs routing space); the human decides.
 
 ## Appearance and saving
 
@@ -169,10 +191,10 @@ the team has changed them there, use those instead.
    read the assembly through the Fusion MCP server. Write the lines into `bom.csv`
    (`parent_pn, parent_rev, pn, qty, unit, refdes, source, notes`).
 6. Compare `bom.csv` with the Fusion assembly: run [fusion_bom.py](fusion_bom.py) in Fusion and
-   check it against `bom.csv`. Every component has a PN, and quantities match. In `bom.csv`, a
-   line read from the CAD has `source` = `Fusion: <assembly> v<n>`; a part that is not modelled
-   (e.g. a wall power supply) has `source` = `manual (not modelled)`. Report any difference; do
-   not resolve it silently. Run the check whenever the BOM or the assembly changes, not only at
+   check it against `bom.csv`. Every component has a PN, and quantities match. Every line in
+   `bom.csv` has `source` = `Fusion: <assembly> v<n>`; a part that is not modelled is in the
+   CAD as a ghost design (Assemblies, rule 7), so no line is entered by hand. Report any
+   difference; do not resolve it silently. Run the check whenever the BOM or the assembly changes, not only at
    release.
 7. Commit the exports, `parts.csv` and `bom.csv` together, in one PR (SOP-001).
 
