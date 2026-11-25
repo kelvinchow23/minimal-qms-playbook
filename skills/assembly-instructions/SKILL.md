@@ -8,9 +8,33 @@ metadata:
 
 # Assembly instructions
 
-Carries out SOP-006 for every in-house assembly (`PPP-A-NNNN` with `make: assemble`). The
-template is SOP-006-A04. The file is `03_build_package/assembly/<PN>.md`, with its pictures in
-`03_build_package/assembly/images/`, linked as in the template.
+Carries out SOP-006 for every in-house assembly (`PPP-A-NNNN` with `make: assemble`).
+
+The assembly instruction is the build document: one controlled document carrying the
+assembly's PN and revision, with numbered appendices as separate files, all flat in
+`03_build_package/`:
+
+| File | Contents |
+|---|---|
+| `<PN>_rev<X>.pdf` | The assembly instruction, with a title block (PN, rev, status, approval, CAD versions) |
+| `<PN>_rev<X>_A01_bom.csv` | Bill of materials for the purchaser (see BOM columns below) |
+| `<PN>_rev<X>_A02_make-files.zip` | Files to make the custom parts: STL for printed parts, drawings, Gerbers for PCBs |
+| `<PN>_rev<X>_A03_inspection-test.pdf` | Incoming inspection, in-process checks, final checks, test procedures, analyses |
+| `<PN>_rev<X>_A04_traveller.pdf` | Build traveller: one per unit, serial number and sign-offs |
+| `<PN>_rev<X>_A05_software.zip` | Released software or firmware, when there is any |
+
+Add further appendices (A06 …) only when a product needs them. Sources (instruction steps,
+pictures, BOM data, CAD exports) live in `02_design/`, and the document is generated from them;
+people read the generated files.
+
+**BOM columns (A01):** ref (the callout in the instruction), PN, rev (custom parts), description,
+category (`Custom (part)`, `Custom (assembly)` or `OTS`), qty, unit in capitals (`EA`), and for
+OTS parts: manufacturer, MPN, supplier, supplier SKU, link, unit price, currency, price in CAD,
+price date. One BOM per assembly; ordering data is copied into each project.
+
+**Traveller (A04):** serial number (SOP-002 section 7), build, assembler and date; a row per
+incoming check, per step check, per final check and per test, each with pass, initials and
+date; and a build-complete signature. Release is recorded separately after the tests (SOP-007).
 
 ## Style: pictures first, little text
 
