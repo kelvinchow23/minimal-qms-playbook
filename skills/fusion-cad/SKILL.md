@@ -188,13 +188,16 @@ then freezes those exact versions. Names below are the minimalQMS defaults (`min
 
 Before the review:
 1. Save every design. Note the version each export comes from (e.g. `LSN-0001 Base v7`).
-2. Export into `03_build_package/mechanical/`, named `<PN>_rev<X>_<short-name>.<ext>`:
+2. Export each file named `<PN>_rev<X>_<short-name>.<ext>`, kept with the build-document
+   sources (e.g. `02_design/build_document/make_files/`):
    - STL (or 3MF) for printed parts: enough for someone to print them;
    - STEP only where someone downstream needs the solid model (machining, a supplier, reuse);
    - PDF drawing where a dimension, tolerance or finish matters to the maker or inspector;
    - Gerbers and assembly files for PCBs (kicad-design skill).
-   Zip them as the make-files appendix of the build document, with a README that lists each
-   file and the CAD version it came from.
+   They go into the build document's make-files appendix,
+   `03_build_package/<assembly PN>_rev<X>_A02_make-files.zip`, with a README that lists each
+   file and the CAD version it came from. Fusion source files (`.f3d`) are not exported: the
+   CAD stays in Fusion, and the version is recorded in the README and the review minutes.
 3. Read the BOM out of the assembly and check it against the BOM appendix: run
    [fusion_bom.py](fusion_bom.py) in Fusion. Every component has a PN and quantities match.
    Every BOM line comes from the CAD; a part that is not modelled is in the CAD as a ghost
