@@ -18,10 +18,10 @@ assembly's PN and revision, with numbered appendices as separate files, all flat
 |---|---|
 | `<PN>_rev<X>.pdf` | The assembly instruction, with a title block (PN, rev, status, approval, CAD versions) |
 | `<PN>_rev<X>_A01_bom.csv` | Bill of materials for the purchaser (see BOM columns below) |
-| `<PN>_rev<X>_A02_make-files.zip` | Files to make the custom parts: STL for printed parts, drawings, Gerbers for PCBs |
-| `<PN>_rev<X>_A03_inspection-test-procedures.pdf` | What to check: incoming, in-process and final checks; each test with a one-line brief, then in full; analyses |
-| `<PN>_rev<X>_A04_build-traveller.pdf` and `.csv` | Build traveller, one per unit |
-| `<PN>_rev<X>_A05_incoming-inspection-record.pdf` and `.csv` | Incoming inspection record, one per delivery |
+| `<PN>_rev<X>_A02_make_files.zip` | Files to make the custom parts: STL for printed parts, drawings, Gerbers for PCBs |
+| `<PN>_rev<X>_A03_test.pdf` | What to check: incoming, in-process and final checks; each test with a one-line brief, then in full; analyses |
+| `<PN>_rev<X>_A04_traveller.pdf` and `.csv` | Build traveller, one per unit |
+| `<PN>_rev<X>_A05_incoming.pdf` and `.csv` | Incoming inspection record, one per delivery |
 | `<PN>_rev<X>_A06_software.zip` | Released software or firmware, once it has passed its tests (not frozen at G2) |
 
 Add further appendices (A07 …) only when a product needs them. Every appendix's title says what
