@@ -195,7 +195,7 @@ Before the review:
    - PDF drawing where a dimension, tolerance or finish matters to the maker or inspector;
    - Gerbers and assembly files for PCBs (kicad-design skill).
    They go into the build document's make-files appendix,
-   `03_build_package/<assembly PN>_rev<X>_A02_make-files.zip`, with a README that lists each
+   `03_build_package/<assembly PN>_rev<X>_A02_make_files.zip`, with a README that lists each
    file and the CAD version it came from. Fusion source files (`.f3d`) are not exported: the
    CAD stays in Fusion, and the version is recorded in the README and the review minutes.
 3. Read the BOM out of the assembly and check it against the BOM appendix: run
