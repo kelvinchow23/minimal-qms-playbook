@@ -188,7 +188,7 @@ then freezes those exact versions. Names below are the minimalQMS defaults (`min
 
 Before the review:
 1. Save every design. Note the version each export comes from (e.g. `LSN-0001 Base v7`).
-2. Export each file named `<PN>_rev<X>_<short-name>.<ext>`, kept with the build-document
+2. Export each file named `<PN>_<short-name>_rev_<X>.<ext>`, kept with the build-document
    sources (e.g. `02_design/build_document/make_files/`):
    - STL (or 3MF) for printed parts: enough for someone to print them;
    - STEP only where someone downstream needs the solid model (machining, a supplier, reuse);
