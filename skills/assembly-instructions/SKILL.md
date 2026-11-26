@@ -59,6 +59,8 @@ price date. One BOM per assembly; ordering data is copied into each project.
 - **Build traveller (A04), one per unit:** the serial number as `<PN>-` and a blank the builder
   fills in, the build number (with a note on what it is), assembler and date; a row per step
   check, final check and test (with the test's one-line brief); a build-complete signature.
+  Before the sign-off, a free **Notes and photos** section: any length of text, and the file
+  names of photos kept with the traveller.
   Release is recorded separately after the tests (SOP-007).
 - **Incoming inspection record (A05), one per delivery:** received date, order or supplier,
   inspector; one row per Class A part with its check, how many to check and quantity received,
