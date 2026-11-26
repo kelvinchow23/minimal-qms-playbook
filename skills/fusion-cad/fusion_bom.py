@@ -7,6 +7,9 @@ design's own sub-components (a PCB's chips) are not counted. The PN is the compo
 Number property; when that is not a PN (e.g. Fusion's timestamp default on an uploaded STEP),
 the PN at the start of the referenced file's name is used, and the line says so. A local
 component with bodies is reported as NO-PN: custom parts must be their own designs.
+Only the PN at the start of the property counts (some uploaded models hold e.g.
+`ECM-0004 Raspberry Pi Zero 2 W`). Last, it lists hidden components and bodies: Fusion
+leaves them out of STEP and STL exports, so nothing may be hidden when a design is saved.
 """
 import re
 
@@ -30,7 +33,8 @@ def run(_context: str):
     counts, how = {}, {}
     for o in _parts(root.occurrences):
         comp = o.component
-        pn, src = (comp.partNumber, "property") if PN.match(comp.partNumber or "") else (None, "")
+        m = PN.match(comp.partNumber or "")
+        pn, src = (m.group(1), "property") if m else (None, "")
         if not pn and o.isReferencedComponent:
             m = PN.match(comp.parentDesign.parentDocument.dataFile.name)
             pn, src = (m.group(1), "file name; Part Number property not set") if m else (None, "")
@@ -40,3 +44,8 @@ def run(_context: str):
     print("pn,qty,how")
     for pn in sorted(counts):
         print(f"{pn},{counts[pn]},{how[pn]}")
+    hidden = [o.fullPathName for o in root.allOccurrences if not o.isLightBulbOn]
+    design = root.parentDesign
+    hidden += [c.name + "/" + b.name for c in design.allComponents for b in c.bRepBodies if not b.isLightBulbOn]
+    if hidden:
+        print("HIDDEN (left out of STEP/STL exports): " + "; ".join(hidden))

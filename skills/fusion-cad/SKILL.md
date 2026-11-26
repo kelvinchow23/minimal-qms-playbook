@@ -1,8 +1,8 @@
 ---
 name: fusion-cad
-description: Model parts and assemblies in Autodesk Fusion to a consistent standard (symmetry, sketches, holes, 3D-print defaults, heat-set inserts, off-the-shelf models) so they map to minimalQMS part numbers, and release them (milestone, exports, BOM, parts.csv). Use when creating, changing or reviewing mechanical CAD in Fusion, or when a Fusion part or assembly is being released.
+description: Model parts and assemblies in Autodesk Fusion to a consistent standard (symmetry, sketches, holes, 3D-print defaults, heat-set inserts, off-the-shelf models) so they map to minimalQMS part numbers, and release them (exports before the review, BOM check, milestones after approval). Use when creating, changing or reviewing mechanical CAD in Fusion, or when a Fusion part or assembly is being released.
 metadata:
-  rev: C
+  rev: D
   status: draft
 ---
 
@@ -16,13 +16,14 @@ in Autodesk Fusion. Parts are assumed to be 3D printed unless stated otherwise.
 | Thing | Lives in | Not in |
 |---|---|---|
 | Geometry and its version history | Fusion | git |
-| Part numbers, revisions, lifecycle | product repo `03_build_package/parts.csv` | Fusion properties or Fusion Manage |
-| BOM | product repo `03_build_package/bom.csv` (exported at release) | Fusion only |
-| Released files (STEP, STL/3MF, PDF) | product repo `03_build_package/mechanical/` | Fusion only |
+| Part numbers and revisions | product repo: the assembly's BOM source (`02_design/build_document/bom.csv`) | Fusion properties or Fusion Manage |
+| Lifecycle (draft, released) | git: branch or PR = draft; merged and tagged = released (SOP-002 section 5) | Fusion's own lifecycle or release features |
+| BOM | product repo, build-document appendix A01 (read from the CAD) | Fusion only |
+| Make files (STL/3MF, STEP, PDF) | product repo, build-document appendix A02 | Fusion only |
 
-Fusion versions (`v12`) are not revisions (`B`). A released revision points to one Fusion
-version through the `source` column of `parts.csv`. Do not use Fusion's own lifecycle or
-release features as the record; they would duplicate `parts.csv`.
+Fusion versions (`v12`) are not revisions (`B`). A revision points to one Fusion version
+through the build document's title block (design source) and the A02 README. Do not use
+Fusion's own lifecycle or release features as the record; they would duplicate git.
 
 ## Files and folders
 
@@ -170,6 +171,10 @@ Hard rules. Nothing in a saved assembly may be draggable.
 1. Opaque appearances only. Exception: windows (e.g. a polycarbonate panel) are clear with a
    very light blue tint.
 2. When saving any design, no sketches, construction planes, axes or points are visible.
+3. When saving any design, every component and body is visible. Fusion leaves hidden
+   components and bodies out of STEP and STL exports and renders without saying so (a lid
+   hidden to look inside went missing from an assembly STEP). Hide things only while working,
+   or with a group's eye icon (Assemblies, rule 6), and turn them back on before saving.
 
 ## BOM
 
@@ -195,7 +200,7 @@ Before the review:
    - PDF drawing where a dimension, tolerance or finish matters to the maker or inspector;
    - Gerbers and assembly files for PCBs (kicad-design skill).
    They go into the build document's make-files appendix,
-   `03_build_package/<assembly PN>_rev<X>_A02_make_files.zip`, with a README that lists each
+   `03_build_package/<assembly PN>-A02_make_files_rev_<X>.zip`, with a README that lists each
    file and the CAD version it came from.
    Also add a backup of the CAD itself, so the design survives losing the Fusion hub or
    licence: each custom part as `.f3d` (the full editable design with its timeline; a part
@@ -204,8 +209,13 @@ Before the review:
    File > Export; the API writes an `.f3d` without the referenced designs, so ask the human
    for the `.f3z` when one is wanted. STEP and `.f3d` name parts by their Part Number
    property: set it on every part first.
+   Before exporting, check that nothing is hidden (Appearance and saving, rule 3);
+   [fusion_bom.py](fusion_bom.py) lists hidden components and bodies. After exporting, check
+   the files hold everything: the assembly STEP names every PN on the BOM, and each STL has
+   every body of its part.
 3. Read the BOM out of the assembly and check it against the BOM appendix: run
-   [fusion_bom.py](fusion_bom.py) in Fusion. Every component has a PN and quantities match.
+   [fusion_bom.py](fusion_bom.py) in Fusion. Every component has a PN, quantities match and
+   nothing is hidden.
    Every BOM line comes from the CAD; a part that is not modelled is in the CAD as a ghost
    design (Assemblies, rule 7), so no line is entered by hand. Report any difference; do not
    resolve it silently. Run the check whenever the BOM or the assembly changes.
@@ -216,8 +226,9 @@ After approval (SOP-003 review or SOP-001 ECO; releasing is not approval):
    bring it back to the approver.
 6. Mark each exported version as a milestone named `<PN> rev <X>`, with the gate or ECO in the
    version description (e.g. `G2 design freeze`). Update the revision property.
-7. Set the parts' revision and lifecycle to released, with the source CAD version, and commit
-   in one PR with the exports (SOP-001).
+7. Set the build document's status to Released with the date (released file names gain
+   `_YYMMDD`), commit with the exports, and after the merge tag `<PN>-rev<X>` with a GitHub
+   Release (SOP-002 section 5).
 
 ## Milestones at gates
 
@@ -240,7 +251,12 @@ The milestone list then shows which version of each design was approved at each 
 - Edit a part by opening it directly from the Data Panel (agents: open its latest version),
   with the assemblies that use it closed. A part opened through an assembly's references cannot
   be saved. Changing only a property (e.g. Part Number) does not mark a design as modified, so
-  that save does nothing; make it together with a real change.
+  that save does nothing; make it together with a real change (naming an unnamed body is a
+  useful one; renaming a body and back also works).
+- A design made by uploading a STEP file keeps its upload name as the root component name
+  (the API cannot change it), and may refuse a Part Number value through the API without an
+  error: read the property back after setting it. If it will not take, ask the human to set
+  it in the Properties dialog, and until then record the value it holds.
 - After every save, confirm that the design's latest version number went up. "Save returned
   true" is not proof; the save may not have landed.
 
