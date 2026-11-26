@@ -196,8 +196,14 @@ Before the review:
    - Gerbers and assembly files for PCBs (kicad-design skill).
    They go into the build document's make-files appendix,
    `03_build_package/<assembly PN>_rev<X>_A02_make_files.zip`, with a README that lists each
-   file and the CAD version it came from. Fusion source files (`.f3d`) are not exported: the
-   CAD stays in Fusion, and the version is recorded in the README and the review minutes.
+   file and the CAD version it came from.
+   Also add a backup of the CAD itself, so the design survives losing the Fusion hub or
+   licence: each custom part as `.f3d` (the full editable design with its timeline; a part
+   with no references exports complete) and the top assembly as STEP. A packed assembly
+   archive (`.f3z`, with every referenced design) can only be made from Fusion's
+   File > Export; the API writes an `.f3d` without the referenced designs, so ask the human
+   for the `.f3z` when one is wanted. STEP and `.f3d` name parts by their Part Number
+   property: set it on every part first.
 3. Read the BOM out of the assembly and check it against the BOM appendix: run
    [fusion_bom.py](fusion_bom.py) in Fusion. Every component has a PN and quantities match.
    Every BOM line comes from the CAD; a part that is not modelled is in the CAD as a ghost
