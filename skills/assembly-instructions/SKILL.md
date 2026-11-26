@@ -92,7 +92,11 @@ orientation check).
    connectors, crimps, ferrules and heat-shrink, then one card per W with its length, both
    ends and the build steps. In the assembly steps each built wire is then a W part like any
    other. A wire bought ready-made is still a W; the section then says there is nothing to build.
-5. **Each step** has:
+5. **Cover page first:** the title block, the list of appendices, and a large picture of the
+   finished product. The parts start on the next page.
+6. **As little text as possible,** and one font with one small set of sizes (title, step
+   heading, body) on every page and appendix.
+7. **Each step** has:
    - a large step number and a short title (a few words);
    - a parts box: thumbnail, callout and quantity (beside the thumbnail) for each part used in
      this step;
@@ -103,7 +107,7 @@ orientation check).
      arrow, then the part fitted. A step with many parts uses an exploded view;
    - a legend: one line per callout, quantity and an action of a few words ("press flush");
    - at most two short notes, for what the picture cannot show.
-6. One colour per class, the same throughout the guide.
+8. One colour per class, the same throughout the guide.
 
 ## Writing it
 
