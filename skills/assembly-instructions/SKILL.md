@@ -26,6 +26,10 @@ assembly's PN and revision, with numbered appendices as separate files, all flat
 
 Add further appendices (A07 …) only when a product needs them.
 
+**File names** carry the revision, and once released the release date: drafts are
+`<PN>-A01_bom_rev_A.csv`; released files (and the files inside A02) are
+`<PN>-A01_bom_rev_A_261126.csv` (YYMMDD, no time: a revision does not change twice in a day).
+
 **One revision for the whole document.** The appendices share the build document's revision
 and date. Any change to any appendix (a BOM line, a make file, a check, the traveller) is a
 revision of the whole document: the revision letter and date change on the instruction and on
