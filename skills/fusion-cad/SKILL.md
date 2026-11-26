@@ -186,9 +186,10 @@ Hard rules. Nothing in a saved assembly may be draggable.
 
 ## Releasing a part or assembly
 
-Do this when the part goes on a released BOM (at G2, or through an ECO after G2). The make
-files are exported **before** the review, so the approver sees the actual outputs; approval
-then freezes those exact versions. Names below are the minimalQMS defaults (`minimal-qms`
+A design is approved for build at G2 and released at G3, once units built from it pass
+their tests (SOP-002 section 5); after that, a change goes through an ECR and a new revision.
+The make files are exported **before** the G2 review, so the approver sees the actual
+outputs; approval then freezes those versions for the first builds. Names below are the minimalQMS defaults (`minimal-qms`
 `docs/INTERFACES.md`, "Release file names"); if the team has changed them there, use those.
 
 Before the review:
@@ -221,14 +222,23 @@ Before the review:
    resolve it silently. Run the check whenever the BOM or the assembly changes.
 4. Put the make files and the BOM in the review package. The approver opens them.
 
-After approval (SOP-003 review or SOP-001 ECO; releasing is not approval):
+After the G2 approval (approval is not release):
 5. Check that no design has a newer version than the one exported. If one does, re-export and
    bring it back to the approver.
-6. Mark each exported version as a milestone named `<PN> rev <X>`, with the gate or ECO in the
-   version description (e.g. `G2 design freeze`). Update the revision property.
-7. Set the build document's status to Released with the date (released file names gain
-   `_YYMMDD`), commit with the exports, and after the merge tag `<PN>-rev<X>` with a GitHub
-   Release (SOP-002 section 5).
+6. Mark each exported version as a milestone named `<PN> rev <X>`, with `G2 approved for
+   build` in the version description. Update the revision property. Set the build document's
+   status to Approved for build.
+
+While building and testing (before release):
+7. A fix found in a build is made in the design and re-exported, keeping the revision letter;
+   note the new versions in the A02 README and the title block, and what the build found on
+   its traveller. Each build records the CAD version it was built from.
+
+At release (G3; or an ECO after release):
+8. Check again that the exports come from the latest versions, mark them as milestones
+   `<PN> rev <X>` with `G3 released` (or the ECO) in the description, set the build document's
+   status to Released with the date (released file names gain `_YYMMDD`), commit with the
+   exports, and after the merge tag `<PN>-rev<X>` with a GitHub Release (SOP-002 section 5).
 
 ## Milestones at gates
 

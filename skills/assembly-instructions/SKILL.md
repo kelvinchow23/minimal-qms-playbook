@@ -2,7 +2,7 @@
 name: assembly-instructions
 description: Write or update the assembly instruction for an in-house assembly (minimalQMS SOP-006-A04) as a picture-led guide in the style of flat-pack furniture instructions, with short callout IDs from the BOM, CAD renders for every step, and a buildability check against the CAD model. Use when an assembly needs an instruction before its first build, or when its design changes.
 metadata:
-  rev: B
+  rev: C
   status: draft
 ---
 
@@ -31,10 +31,14 @@ Add further appendices (A07 …) only when a product needs them.
 `<PN>-A01_bom_rev_A_261126.csv` (YYMMDD, no time: a revision does not change twice in a day).
 
 **One revision for the whole document.** The appendices share the build document's revision
-and date. Any change to any appendix (a BOM line, a make file, a check, the traveller) is a
-revision of the whole document: the revision letter and date change on the instruction and on
-every appendix together, in the same PR (SOP-001), even when the instruction's own text did
-not change.
+and date. Any change to any appendix (a BOM line, a make file, a check, the traveller)
+changes the whole document: the date (and, after release, the revision letter) changes on the
+instruction and on every appendix together, in the same PR (SOP-001), even when the
+instruction's own text did not change. Before release, while the first units are built from
+the approved design, fixes keep the letter (SOP-002 section 5).
+
+**Status** in the title block is `Draft`, `Approved for build` (after G2) or `Released` (at
+G3, with the date in the file names).
 
 **Title block, the same on every document and form:** title, document number (`<PN>` or
 `<PN>-A<nn>`), rev, assembly name and number, status, date, approval, design source (the top
@@ -57,7 +61,9 @@ price date. One BOM per assembly; ordering data is copied into each project.
   do on a fail: mark it, write what was seen, stop work on that unit or part, tell the quality
   lead, who raises an NC.
 - **Build traveller (A04), one per unit:** the serial number as `<PN>-` and a blank the builder
-  fills in, the build number (with a note on what it is), assembler and date; a row per step
+  fills in, the build number (with a note on what it is), what it was built from (git commit
+  and CAD version, blanks the builder copies from the title block and `git log`), assembler
+  and date; a row per step
   check, final check and test (with the test's one-line brief); a build-complete signature.
   Before the sign-off, a free **Notes and photos** section: any length of text, and the file
   names of photos kept with the traveller.
