@@ -44,7 +44,8 @@ The BOM (A01) is per unit. What to order is decided now, by the human, for one b
    read from the supplier's page; a true one-off may leave `pn` blank and give description,
    supplier, supplier_pn, unit_price, pack_qty, currency and link. Extras are ordered as
    listed; the order sheet shows what each line is for and the total per purpose. When the
-   order is recorded, only this product's lines go in its `purchasing/purchases.csv`.
+   order is recorded, only this product's lines go in its `purchasing/purchases.csv`: pass the
+   parts plan to `record_order.py` (`--plan builds/B00n/parts_plan.csv`).
 
 3. **The human reviews the order sheet** (`builds/B00n/order_sheet.md`): how many purchase reqs
    to send (one per supplier), each req's lines, quantities, prices and totals (also in CAD),
@@ -78,7 +79,8 @@ The BOM (A01) is per unit. What to order is decided now, by the human, for one b
 2. Record it in the product repo, on a branch:
 
    ```
-   python tools/record_order.py out/<supplier>-<date>.csv <Supplier> "<order_ref>" <product> [--date YYYY-MM-DD]
+   python tools/record_order.py <product>/builds/B00n/<supplier>-<date>.csv <Supplier> "<order_ref>" <product> \
+       --plan <product>/builds/B00n/parts_plan.csv [--date YYYY-MM-DD]
    ```
 
    It adds `P-nnnn` lines to `purchasing/purchases.csv` and stores the upload file in
