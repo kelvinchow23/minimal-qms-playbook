@@ -24,8 +24,9 @@ order) are in the organization add-on, not here.
 ## Deciding what to order
 
 The BOM (A01) is per unit. What to order is decided now, by the human, for one build:
-1. Ask how many units the build is for, and what is already on hand (inventory, spares from
-   an earlier build). For an exact part (A01 Purchasing "exact part"), check that the stock is
+1. Ask how many units the build is for, what is already on hand (inventory, spares from
+   an earlier build), and whether anything else should go on the same supplier reqs (other
+   projects, side projects, stock). For an exact part (A01 Purchasing "exact part"), check that the stock is
    that exact part; for "any matching part", that it matches the description.
 2. Write the stock to `builds/B00n/stock.csv` (`pn,qty_on_hand`, in pieces) and run the tool
    with it, writing everything for the order into the build's folder:
@@ -33,8 +34,17 @@ The BOM (A01) is per unit. What to order is decided now, by the human, for one b
    ```
    python tools/requisition.py <product>/02_design/build_document/bom.csv <TOP-PN> <units> \
        --build B00n --stock <product>/builds/B00n/stock.csv --out <product>/builds/B00n/ \
-       --plan <product>/builds/B00n/parts_plan.csv --sheet <product>/builds/B00n/order_sheet.md
+       --plan <product>/builds/B00n/parts_plan.csv --sheet <product>/builds/B00n/order_sheet.md \
+       [--extra <product>/builds/B00n/extras.csv]
    ```
+
+   **Extras** are lines that are not for this build but ride on the same req (one req per
+   supplier). `extras.csv` has `pn,qty,for`, e.g. `ECM-0005,2,inventory`. Add a part you will
+   buy again to the OTS library first (`new_pn.py`), with its supplier part number and price
+   read from the supplier's page; a true one-off may leave `pn` blank and give description,
+   supplier, supplier_pn, unit_price, pack_qty, currency and link. Extras are ordered as
+   listed; the order sheet shows what each line is for and the total per purpose. When the
+   order is recorded, only this product's lines go in its `purchasing/purchases.csv`.
 
 3. **The human reviews the order sheet** (`builds/B00n/order_sheet.md`): how many purchase reqs
    to send (one per supplier), each req's lines, quantities, prices and totals (also in CAD),
@@ -56,7 +66,7 @@ The BOM (A01) is per unit. What to order is decided now, by the human, for one b
 | File | Where | When |
 |---|---|---|
 | **Order sheet to review** (reqs, lines, totals, stock, checklist) | `builds/B00n/order_sheet.md` | when the order is decided |
-| Parts plan and stock count for a build | `builds/B00n/parts_plan.csv`, `builds/B00n/stock.csv` | when the order is decided |
+| Parts plan, stock count and extras for a build | `builds/B00n/parts_plan.csv`, `stock.csv`, `extras.csv` | when the order is decided |
 | Upload file per supplier (draft until the req is made) | `builds/B00n/<supplier>-<date>.csv` | when the order is decided |
 | Order file as submitted | `purchasing/requisitions/<order_ref>.csv` | after ordering (`record_order.py`) |
 | One line per item ordered | `purchasing/purchases.csv` | after ordering (`record_order.py`) |
