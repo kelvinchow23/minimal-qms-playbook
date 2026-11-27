@@ -27,33 +27,37 @@ The BOM (A01) is per unit. What to order is decided now, by the human, for one b
 1. Ask how many units the build is for, and what is already on hand (inventory, spares from
    an earlier build). For an exact part (A01 Purchasing "exact part"), check that the stock is
    that exact part; for "any matching part", that it matches the description.
-2. Write the stock to a CSV (`pn,qty_on_hand`, in pieces) and run the tool with it. It prints
-   the **parts plan**, one line per part: needed, on hand, to order, packs, and where it comes
-   from (order, stock, or made in house):
+2. Write the stock to `builds/B00n/stock.csv` (`pn,qty_on_hand`, in pieces) and run the tool
+   with it, writing everything for the order into the build's folder:
 
    ```
    python tools/requisition.py <product>/02_design/build_document/bom.csv <TOP-PN> <units> \
-       --stock stock.csv --plan <product>/builds/B00n/parts_plan.csv --out out/
+       --build B00n --stock <product>/builds/B00n/stock.csv --out <product>/builds/B00n/ \
+       --plan <product>/builds/B00n/parts_plan.csv --sheet <product>/builds/B00n/order_sheet.md
    ```
 
-3. Show the parts plan to the human and change the stock or the quantity until they agree
-   with it. The plan goes in the build's folder (`builds/B00n/parts_plan.csv`), so the build
-   record shows which parts came from stock.
+3. **The human reviews the order sheet** (`builds/B00n/order_sheet.md`): how many purchase reqs
+   to send (one per supplier), each req's lines, quantities, prices and totals (also in CAD),
+   the parts taken from stock (marked where they must be the exact part), the parts made in
+   house, and a short checklist. Report every warning on it (missing or old prices, unknown
+   PNs); do not guess a missing value. Change the stock or the quantity and rerun until the
+   human agrees with the sheet.
 
-## Making the order files
+## Making the purchase reqs
 
-1. The same run writes one upload file per supplier, for the "order" lines only
-   (`out/<supplier>-<date>.csv`). These are drafts: keep them out of the repo until ordered.
-2. Report every warning to the human (missing or old prices, unknown PNs). Do not guess a
-   missing value.
-3. The human checks the files and places the order through the organization's system. An
-   agent never places an order.
+1. Each req section on the order sheet names its upload file (`builds/B00n/<supplier>-<date>.csv`,
+   one per supplier, for the "order" lines only). That file is what the organization's
+   purchase-req step reads (organization add-on: Airtable).
+2. Make one req per section, only after the human has approved the order sheet. An agent never
+   places an order.
 
 ## Where the files go (product repo)
 
 | File | Where | When |
 |---|---|---|
-| Parts plan for a build | `builds/B00n/parts_plan.csv` | when the order is decided |
+| **Order sheet to review** (reqs, lines, totals, stock, checklist) | `builds/B00n/order_sheet.md` | when the order is decided |
+| Parts plan and stock count for a build | `builds/B00n/parts_plan.csv`, `builds/B00n/stock.csv` | when the order is decided |
+| Upload file per supplier (draft until the req is made) | `builds/B00n/<supplier>-<date>.csv` | when the order is decided |
 | Order file as submitted | `purchasing/requisitions/<order_ref>.csv` | after ordering (`record_order.py`) |
 | One line per item ordered | `purchasing/purchases.csv` | after ordering (`record_order.py`) |
 | Approved suppliers | `purchasing/suppliers.csv` | before a supplier's first order |
