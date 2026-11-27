@@ -57,7 +57,9 @@ The BOM (A01) is per unit. What to order is decided now, by the human, for one b
 ## Making the purchase reqs
 
 1. Each req section on the order sheet names its upload file (`builds/B00n/<supplier>-<date>.csv`,
-   one per supplier, for the "order" lines only). That file is what the organization's
+   one per supplier, for the "order" lines only). Its Notes column says what each line is for
+   and its internal PN (`minimalQMS: LSN-A-0001 build B001; ECM-0001`), so the line in the
+   organization's system traces back to the build. That file is what the organization's
    purchase-req step reads (organization add-on: Airtable).
 2. Make one req per section, only after the human has approved the order sheet. An agent never
    places an order.
