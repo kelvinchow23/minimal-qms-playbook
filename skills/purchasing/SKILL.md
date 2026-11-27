@@ -32,7 +32,8 @@ The BOM (A01) is per unit. What to order is decided now, by the human, for one b
    from (order, stock, or made in house):
 
    ```
-   python tools/requisition.py <product>/02_design/build_document/bom.csv <TOP-PN> <units>        --stock stock.csv --plan <product>/builds/B00n/parts_plan.csv --out out/
+   python tools/requisition.py <product>/02_design/build_document/bom.csv <TOP-PN> <units> \
+       --stock stock.csv --plan <product>/builds/B00n/parts_plan.csv --out out/
    ```
 
 3. Show the parts plan to the human and change the stock or the quantity until they agree
